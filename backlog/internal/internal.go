@@ -30,13 +30,13 @@ func NewClient(baseURL *url.URL, httpClient *http.Client) *Client {
 
 	return &Client{
 		client:  c,
-		baseURL: baseURL,
+		BaseURL: baseURL,
 	}
 }
 
 type Client struct {
 	client  *httpc.Client
-	baseURL *url.URL
+	BaseURL *url.URL
 	apiKey  string
 }
 
@@ -58,7 +58,7 @@ func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request R
 		return nil, err
 	}
 
-	u := c.baseURL.ResolveReference(rel)
+	u := c.BaseURL.ResolveReference(rel)
 
 	resp, err := request(ctx, u, values)
 	if err != nil {

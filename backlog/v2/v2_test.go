@@ -18,12 +18,10 @@ func setup() {
 	mux = http.NewServeMux()
 	server = httptest.NewServer(mux)
 
-	url, err := url.Parse(server.URL)
-	if err != nil {
-		panic(err.Error())
-	}
-	
-	client = NewClient(url.Host,nil)
+
+	parsedURL, _ := url.Parse(server.URL)
+	client = NewClient("localhost",nil)
+	client.client.BaseURL = parsedURL
 }
 
 func teardown() {

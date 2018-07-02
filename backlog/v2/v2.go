@@ -32,7 +32,7 @@ func NewClient(host string, httpClient *http.Client) *Client {
 		httpClient = http.DefaultClient
 	}
 	// TODO change http => https
-	baseURL, _ := url.Parse("http://" + host + "/api/" + ApiVersion + "/")
+	baseURL, _ := url.Parse("https://" + host + "/api/" + ApiVersion + "/")
 
 	c := &Client{client: internal.NewClient(baseURL, httpClient)}
 

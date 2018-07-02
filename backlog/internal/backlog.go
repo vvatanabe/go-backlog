@@ -41,7 +41,7 @@ type Client struct {
 }
 
 func (c *Client) SetAPIKey(key string) {
-	c.client.DefaultQuery.Set("apiKey", key)
+	c.client.Query.Set("apiKey", key)
 }
 
 type RequestFunc func(context.Context, *url.URL, url.Values) (*httpc.Response, error)
@@ -58,12 +58,9 @@ func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request R
 		return nil, err
 	}
 
-	url := c.baseURL.ResolveReference(rel)
-	if c.apiKey != "" {
-		url.RawQuery = fmt.Sprintf("apiKey=%s", c.apiKey)
-	}
+	u := c.baseURL.ResolveReference(rel)
 
-	resp, err := request(ctx, url, values)
+	resp, err := request(ctx, u, values)
 	if err != nil {
 		if e, ok := err.(*url.Error); ok {
 			if parsedURL, err := url.Parse(e.URL); err == nil {

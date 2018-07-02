@@ -18,6 +18,7 @@ type service struct {
 type Client struct {
 	client *internal.Client
 
+	Space   *SpaceService
 	Projects *ProjectsService
 	Issues   *IssuesService
 }
@@ -30,12 +31,14 @@ func NewClient(host string, httpClient *http.Client) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	baseURL, _ := url.Parse("https://" + host + "/api/" + ApiVersion + "/")
+	// TODO change http => https
+	baseURL, _ := url.Parse("http://" + host + "/api/" + ApiVersion + "/")
 
 	c := &Client{client: internal.NewClient(baseURL, httpClient)}
 
 	common := &service{client: c.client}
 
+	c.Space = (*SpaceService)(common)
 	c.Projects = (*ProjectsService)(common)
 	c.Issues = (*IssuesService)(common)
 

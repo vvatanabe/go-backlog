@@ -10,7 +10,6 @@ import (
 	"compress/gzip"
 	"encoding/json"
 	"io/ioutil"
-	"sort"
 )
 
 type Response struct {
@@ -73,6 +72,7 @@ func NewClient(client *http.Client) *Client {
 	return &Client{
 		client: client,
 		Header: make(map[string]string),
+		Query: url.Values{},
 	}
 }
 
@@ -164,7 +164,7 @@ func (c *Client) do(ctx context.Context, req *http.Request) (*Response, error) {
 	return &Response{Response: resp}, nil
 }
 
-func AddQuery(url *url.URL, queries... url.Values) {
+func AddQuery(u *url.URL, queries... url.Values) {
 	q := url.Values{}
 	for _, query := range queries {
 		keys := make([]string, 0, len(query))
@@ -176,5 +176,5 @@ func AddQuery(url *url.URL, queries... url.Values) {
 			q.Add(k, vs)
 		}
 	}
-	url.RawQuery = q.Encode()
+	u.RawQuery = q.Encode()
 }

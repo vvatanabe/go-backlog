@@ -37,11 +37,10 @@ func NewClient(baseURL *url.URL, httpClient *http.Client) *Client {
 type Client struct {
 	client  *httpc.Client
 	BaseURL *url.URL
-	apiKey  string
 }
 
 func (c *Client) SetAPIKey(key string) {
-	c.client.Query.Set("apiKey", key)
+	c.client.BaseQuery.Set("apiKey", key)
 }
 
 type RequestFunc func(context.Context, *url.URL, url.Values) (*httpc.Response, error)
@@ -131,8 +130,8 @@ func toValues(data interface{}) (url.Values, error) {
 
 func addValues(values url.Values, k string, v interface{}) {
 	if as, ok := v.([]interface{}); ok {
-		for i, v := range as {
-			addValues(values, fmt.Sprintf(k, i), v)
+		for _, v := range as {
+			addValues(values, k, v)
 		}
 	} else {
 		values.Add(k, fmt.Sprintf("%v", v))

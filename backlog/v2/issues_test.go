@@ -33,3 +33,62 @@ func Test_IssueService_GetIssue_should_get_a_issue(t *testing.T) {
 		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
 	}
 }
+
+func Test_IssueService_AddIssue_should_add_a_issue(t *testing.T) {
+	setup()
+	defer teardown()
+
+	projectID := 1
+	summary := "summary"
+	issueTypeID := 1
+	priorityID := 2
+	opt := &AddIssueOptions{
+		ParentIssueID: 1,
+		Description: "Description",
+		StartDate: "2018-07-01",
+		DueDate: "2018-07-02",
+		EstimatedHours: 1.5,
+		ActualHours: 2.0,
+		CategoryIDs: []int{1},
+		VersionIDs: []int{1},
+		MilestoneIDs: []int{1},
+		AssigneeID: 1,
+		NotifiedUserIDs: []int{1},
+		AttachmentIDs: []int{1},
+	}
+
+	b, _ := ioutil.ReadFile(fixturesPath + "add-issue.json")
+	mux.HandleFunc("/issues",
+		func(w http.ResponseWriter, r *http.Request) {
+			internal.TestMethod(t, r, "POST")
+			internal.TestFormValues(t, r, internal.Values{
+				"projectId": projectID,
+				"summary": summary,
+				"issueTypeId": issueTypeID,
+				"priorityId": priorityID,
+				"parentIssueId": opt.ParentIssueID,
+				"description": opt.Description,
+				"startDate": opt.StartDate,
+				"dueDate": opt.DueDate,
+				"estimatedHours": opt.EstimatedHours,
+				"actualHours": opt.ActualHours,
+				"categoryId[]": opt.CategoryIDs[0],
+				"versionId[]": opt.VersionIDs[0],
+				"milestoneId[]": opt.MilestoneIDs[0],
+				"assigneeId": opt.AssigneeID,
+				"notifiedUserId[]": opt.NotifiedUserIDs[0],
+				"attachmentId[]": opt.AttachmentIDs[0],
+			})
+			fmt.Fprint(w, string(b))
+		})
+
+	result, _, err := client.Issues.AddIssue(context.Background(), projectID, summary, issueTypeID, priorityID, opt)
+	if err != nil {
+		t.Errorf("Returned error: %v", err)
+	}
+	var want *Issue
+	json.Unmarshal(b, &want)
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
+	}
+}

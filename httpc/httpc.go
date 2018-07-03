@@ -70,39 +70,35 @@ func (h Header) Set(k, v string) {
 
 func NewClient(client *http.Client) *Client {
 	return &Client{
-		client: client,
-		Header: make(map[string]string),
-		Query: url.Values{},
+		client:    client,
+		Header:    make(map[string]string),
+		BaseQuery: url.Values{},
 	}
 }
 
 type Client struct {
-	client       *http.Client
-	Header       Header
-	Query url.Values
+	client    *http.Client
+	Header    Header
+	BaseQuery url.Values
 }
 
-func (c *Client) Post(ctx context.Context, url *url.URL, body url.Values) (*Response, error) {
-	AddQuery(url, c.Query)
-	return c.call(ctx, http.MethodPost, url, body)
+func (c *Client) Post(ctx context.Context, u *url.URL, body url.Values) (*Response, error) {
+	return c.call(ctx, http.MethodPost, c.AddQuery(u), body)
 }
 
-func (c *Client) Put(ctx context.Context, url *url.URL, body url.Values) (*Response, error) {
-	AddQuery(url, c.Query)
-	return c.call(ctx, http.MethodPut, url, body)
+func (c *Client) Put(ctx context.Context, u *url.URL, body url.Values) (*Response, error) {
+	return c.call(ctx, http.MethodPut, c.AddQuery(u), body)
 }
 
-func (c *Client) Delete(ctx context.Context, url *url.URL, query url.Values) (res *Response, err error) {
-	AddQuery(url, c.Query, query)
-	return c.call(ctx, http.MethodDelete, url, nil)
+func (c *Client) Delete(ctx context.Context, u *url.URL, query url.Values) (res *Response, err error) {
+	return c.call(ctx, http.MethodDelete, c.AddQuery(u, query), nil)
 }
 
-func (c *Client) Get(ctx context.Context, url *url.URL, query url.Values) (res *Response, err error) {
-	AddQuery(url, c.Query, query)
-	return c.call(ctx, http.MethodGet, url, nil)
+func (c *Client) Get(ctx context.Context, u *url.URL, query url.Values) (res *Response, err error) {
+	return c.call(ctx, http.MethodGet, c.AddQuery(u, query), nil)
 }
 
-func (c *Client) call(ctx context.Context, method string, url *url.URL, body url.Values) (*Response, error) {
+func (c *Client) call(ctx context.Context, method, url string, body url.Values) (*Response, error) {
 	req, err := c.newRequest(method, url, body)
 	if err != nil {
 		return nil, err
@@ -114,14 +110,14 @@ func (c *Client) call(ctx context.Context, method string, url *url.URL, body url
 	return resp, nil
 }
 
-func (c *Client) newRequest(method string, url *url.URL, body url.Values) (*http.Request, error) {
+func (c *Client) newRequest(method, url string, body url.Values) (*http.Request, error) {
 
 	var buf io.Reader
 	if body != nil {
 		buf = strings.NewReader(body.Encode())
 	}
 
-	req, err := http.NewRequest(method, url.String(), buf)
+	req, err := http.NewRequest(method, url, buf)
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +160,7 @@ func (c *Client) do(ctx context.Context, req *http.Request) (*Response, error) {
 	return &Response{Response: resp}, nil
 }
 
-func AddQuery(u *url.URL, queries... url.Values) {
+func (c *Client) AddQuery(u *url.URL, queries... url.Values) string {
 	q := url.Values{}
 	for _, query := range queries {
 		keys := make([]string, 0, len(query))
@@ -177,4 +173,16 @@ func AddQuery(u *url.URL, queries... url.Values) {
 		}
 	}
 	u.RawQuery = q.Encode()
+	baseQuery := c.BaseQuery.Encode()
+
+	// TODO
+	if baseQuery != "" {
+		if u.RawQuery == "" {
+			return u.String() + "?" + baseQuery
+		} else {
+			return u.String() + "&" + baseQuery
+		}
+	}
+
+	return u.String()
 }

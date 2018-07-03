@@ -12,7 +12,10 @@ var (
 	server *httptest.Server
 )
 
-const fixturesPath = "../../testdata/v2/"
+const (
+	fixturesPath = "../../testdata/v2/"
+	// dummyAPIKey = "deadbeef"
+	)
 
 func setup() {
 	mux = http.NewServeMux()
@@ -22,6 +25,7 @@ func setup() {
 	parsedURL, _ := url.Parse(server.URL)
 	client = NewClient("localhost",nil)
 	client.client.BaseURL = parsedURL
+	// client.SetAPIKey(dummyAPIKey)
 }
 
 func teardown() {

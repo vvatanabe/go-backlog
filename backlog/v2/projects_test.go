@@ -37,31 +37,87 @@ func Test_ProjectsService_GetProject_should_get_a_project(t *testing.T) {
 func Test_ProjectsService_GetProjectUsers_should_get_some_users_in_project(t *testing.T) {
 	setup()
 	defer teardown()
-	b, _ := ioutil.ReadFile(fixturesPath + "get-project.json")
+	b, _ := ioutil.ReadFile(fixturesPath + "get-project-user-list.json")
 	projectIDOrKey := "EXAMPLE"
-	mux.HandleFunc(fmt.Sprintf("/projects/%s", projectIDOrKey),
+	mux.HandleFunc(fmt.Sprintf("/projects/%s/users", projectIDOrKey),
 		func(w http.ResponseWriter, r *http.Request) {
 			internal.TestMethod(t, r, "GET")
 			fmt.Fprint(w, string(b))
 		})
 
-	result, _, err := client.Projects.GetProject(context.Background(), projectIDOrKey)
+	result, _, err := client.Projects.GetProjectUsers(context.Background(), projectIDOrKey)
 	if err != nil {
 		t.Errorf("Returned error: %v", err)
 	}
-	var want *Project
+	var want []*User
 	json.Unmarshal(b, &want)
 	if !reflect.DeepEqual(result, want) {
 		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
 	}
 }
 
-//func (s *ProjectsService) GetProjectUsers(ctx context.Context, projectIDOrKey string) ([]*User, *Response, error) {
-//	u := fmt.Sprintf("projects/%s/users", projectIDOrKey)
-//	var result []*User
-//	if resp, err := s.client.Get(ctx, u, nil, &result); err != nil {
-//		return nil, resp, err
-//	} else {
-//		return result, resp, nil
-//	}
-//}
+func Test_ProjectsService_GetIssueTypes_should_get_some_issue_types_in_project(t *testing.T) {
+	setup()
+	defer teardown()
+	b, _ := ioutil.ReadFile(fixturesPath + "get-issue-type-list.json")
+	projectIDOrKey := "EXAMPLE"
+	mux.HandleFunc(fmt.Sprintf("/projects/%s/issueTypes", projectIDOrKey),
+		func(w http.ResponseWriter, r *http.Request) {
+			internal.TestMethod(t, r, "GET")
+			fmt.Fprint(w, string(b))
+		})
+
+	result, _, err := client.Projects.GetIssueTypes(context.Background(), projectIDOrKey)
+	if err != nil {
+		t.Errorf("Returned error: %v", err)
+	}
+	var want []*IssueType
+	json.Unmarshal(b, &want)
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
+	}
+}
+
+func Test_ProjectsService_GetCategories_should_get_some_categories_in_project(t *testing.T) {
+	setup()
+	defer teardown()
+	b, _ := ioutil.ReadFile(fixturesPath + "get-issue-type-list.json")
+	projectIDOrKey := "EXAMPLE"
+	mux.HandleFunc(fmt.Sprintf("/projects/%s/categories", projectIDOrKey),
+		func(w http.ResponseWriter, r *http.Request) {
+			internal.TestMethod(t, r, "GET")
+			fmt.Fprint(w, string(b))
+		})
+
+	result, _, err := client.Projects.GetCategories(context.Background(), projectIDOrKey)
+	if err != nil {
+		t.Errorf("Returned error: %v", err)
+	}
+	var want []*Category
+	json.Unmarshal(b, &want)
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
+	}
+}
+
+func Test_ProjectsService_GetVersions_should_get_some_versions_in_project(t *testing.T) {
+	setup()
+	defer teardown()
+	b, _ := ioutil.ReadFile(fixturesPath + "get-version-milestone-list.json")
+	projectIDOrKey := "EXAMPLE"
+	mux.HandleFunc(fmt.Sprintf("/projects/%s/versions", projectIDOrKey),
+		func(w http.ResponseWriter, r *http.Request) {
+			internal.TestMethod(t, r, "GET")
+			fmt.Fprint(w, string(b))
+		})
+
+	result, _, err := client.Projects.GetVersions(context.Background(), projectIDOrKey)
+	if err != nil {
+		t.Errorf("Returned error: %v", err)
+	}
+	var want []*Version
+	json.Unmarshal(b, &want)
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
+	}
+}

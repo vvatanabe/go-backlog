@@ -21,7 +21,7 @@ type Space struct {
 	Updated            time.Time `json:"updated"`
 }
 
-// https://developer.nulab-inc.com/ja/docs/backlog/api/2/get-space/
+// Backlog API docs: https://developer.nulab-inc.com/ja/docs/backlog/api/2/get-space/
 func (s *SpaceService) GetSpace(ctx context.Context) (*Space, *Response, error) {
 	u := "space"
 	var result *Space

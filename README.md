@@ -50,3 +50,14 @@ For bugs, questions and discussions please use the Github Issues.
 ## License
 
 [MIT License](http://www.opensource.org/licenses/mit-license.php)
+
+## Support API
+
+- [x] [get space](https://developer.nulab-inc.com/ja/docs/backlog/api/2/get-space/)
+- [x] [get issue](https://developer.nulab-inc.com/docs/backlog/api/2/get-issue/)
+- [x] [add issue](https://developer.nulab-inc.com/docs/backlog/api/2/add-issue/)
+- [x] [get project](https://developer.nulab-inc.com/docs/backlog/api/2/get-project/)
+- [x] [get project user list](https://developer.nulab-inc.com/docs/backlog/api/2/get-project-user-list//)
+- [x] [get issue type list](https://developer.nulab-inc.com/docs/backlog/api/2/get-issue-type-list/)
+- [x] [add category list](https://developer.nulab-inc.com/docs/backlog/api/2/get-category-list/)
+- [x] [get version milestone list](https://developer.nulab-inc.com/docs/backlog/api/2/get-version-milestone-list/)

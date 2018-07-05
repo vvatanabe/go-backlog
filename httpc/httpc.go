@@ -7,9 +7,12 @@ import (
 	"net/url"
 	"strings"
 
+	"bytes"
 	"compress/gzip"
 	"encoding/json"
 	"io/ioutil"
+	"mime/multipart"
+	"os"
 )
 
 type Response struct {
@@ -83,19 +86,19 @@ type Client struct {
 }
 
 func (c *Client) Post(ctx context.Context, u *url.URL, body url.Values) (*Response, error) {
-	return c.call(ctx, http.MethodPost, c.AddQuery(u), body)
+	return c.call(ctx, http.MethodPost, c.resolveURL(u), body)
 }
 
 func (c *Client) Put(ctx context.Context, u *url.URL, body url.Values) (*Response, error) {
-	return c.call(ctx, http.MethodPut, c.AddQuery(u), body)
+	return c.call(ctx, http.MethodPut, c.resolveURL(u), body)
 }
 
 func (c *Client) Delete(ctx context.Context, u *url.URL, query url.Values) (res *Response, err error) {
-	return c.call(ctx, http.MethodDelete, c.AddQuery(u, query), nil)
+	return c.call(ctx, http.MethodDelete, c.resolveURL(u, query), nil)
 }
 
 func (c *Client) Get(ctx context.Context, u *url.URL, query url.Values) (res *Response, err error) {
-	return c.call(ctx, http.MethodGet, c.AddQuery(u, query), nil)
+	return c.call(ctx, http.MethodGet, c.resolveURL(u, query), nil)
 }
 
 func (c *Client) call(ctx context.Context, method, url string, body url.Values) (*Response, error) {
@@ -129,8 +132,8 @@ func (c *Client) newRequest(method, url string, body url.Values) (*http.Request,
 	return req, nil
 }
 
-func (c *Client) newUploadRequest(url *url.URL, reader io.Reader, size int64, mediaType string) (*http.Request, error) {
-	req, err := http.NewRequest(http.MethodPost, url.String(), reader)
+func (c *Client) newUploadRequest(url string, reader io.Reader, size int64, mediaType string) (*http.Request, error) {
+	req, err := http.NewRequest(http.MethodPost, url, reader)
 	if err != nil {
 		return nil, err
 	}
@@ -141,7 +144,40 @@ func (c *Client) newUploadRequest(url *url.URL, reader io.Reader, size int64, me
 	}
 	req.Header.Set("Content-Type", mediaType)
 	return req, nil
+}
 
+func (c *Client) NewMultipartRequest(url string, values map[string]io.Reader) (*http.Request, error) {
+	var buffer bytes.Buffer
+	multipartWriter := multipart.NewWriter(&buffer)
+	for key, reader := range values {
+		var fieldWriter io.Writer
+		var err error = nil
+		if closable, ok := reader.(io.Closer); ok {
+			closable.Close()
+		}
+		if file, ok := reader.(*os.File); ok {
+			if fieldWriter, err = multipartWriter.CreateFormFile(key, file.Name()); err != nil {
+				return nil, err
+			}
+		} else {
+			if fieldWriter, err = multipartWriter.CreateFormField(key); err != nil {
+				return nil, err
+			}
+		}
+		if _, err = io.Copy(fieldWriter, reader); err != nil {
+			return nil, err
+		}
+	}
+	multipartWriter.Close()
+	req, err := http.NewRequest(http.MethodPost, url, &buffer)
+	if err != nil {
+		return nil, err
+	}
+	for k, v := range c.Header {
+		req.Header.Set(k, v)
+	}
+	req.Header.Set("Content-Type", multipartWriter.FormDataContentType())
+	return req, nil
 }
 
 func (c *Client) do(ctx context.Context, req *http.Request) (*Response, error) {
@@ -160,7 +196,7 @@ func (c *Client) do(ctx context.Context, req *http.Request) (*Response, error) {
 	return &Response{Response: resp}, nil
 }
 
-func (c *Client) AddQuery(u *url.URL, queries... url.Values) string {
+func (c *Client) resolveURL(u *url.URL, queries ...url.Values) string {
 	q := url.Values{}
 	for _, query := range queries {
 		keys := make([]string, 0, len(query))

@@ -43,9 +43,8 @@ func init() {
 }
 
 func test(t *testing.T, result interface{}, resp *shared.Response, err error) {
-	println("URL: " + resp.Request.URL.String())
 	if err != nil {
-		t.Fatalf("Returned error: %v", err)
+		t.Fatalf("Returned error: %v", err.Error())
 	}
 	if resp == nil {
 		t.Fatal("Returned nil response")

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"encoding/json"
 )
 
 type Response struct {
@@ -22,14 +23,10 @@ type Error struct {
 }
 
 func (r *ErrorResponse) Error() string {
-	var msgs []string
-	for _, err := range r.Errors {
-		msg := fmt.Sprintf("message: %v, code: %v", err.Message, err.Code)
-		msgs = append(msgs, msg)
-	}
-	return fmt.Sprintf("%v %v: %d %v",
+	bytes, _ := json.Marshal(r.Errors)
+	return fmt.Sprintf("%v %v %d %v",
 		r.Response.Request.Method, SanitizeURL(r.Response.Request.URL),
-		r.Response.StatusCode, msgs)
+		r.Response.StatusCode, string(bytes))
 }
 
 func SanitizeURL(uri *url.URL) *url.URL {

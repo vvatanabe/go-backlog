@@ -65,6 +65,14 @@ func (resp *Response) ReadAll() ([]byte, error) {
 	return ioutil.ReadAll(reader)
 }
 
+func (resp *Response) String() (string, error) {
+	v, err := resp.ReadAll()
+	if err != nil {
+		return "", err
+	}
+	return string(v), nil
+}
+
 type Header map[string]string
 
 func (h Header) Set(k, v string) {

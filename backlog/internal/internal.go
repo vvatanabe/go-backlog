@@ -129,11 +129,16 @@ func toValues(data interface{}) (url.Values, error) {
 }
 
 func addValues(values url.Values, k string, v interface{}) {
-	if as, ok := v.([]interface{}); ok {
+	switch as := v.(type) {
+	case []interface{}:
 		for _, v := range as {
 			addValues(values, k, v)
 		}
-	} else {
+	case map[string]interface{}:
+		for mapKey, v := range as {
+			addValues(values, fmt.Sprintf(k, mapKey), v)
+		}
+	default:
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 }

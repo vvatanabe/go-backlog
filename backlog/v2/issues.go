@@ -79,18 +79,20 @@ type Issue struct {
 }
 
 type AddIssueOptions struct {
-	ParentIssueID   int     `json:"parentIssueId,omitempty"`
-	Description     string  `json:"description,omitempty"`
-	StartDate       string  `json:"startDate,omitempty"`
-	DueDate         string  `json:"dueDate,omitempty"`
-	EstimatedHours  float64 `json:"estimatedHours,omitempty"`
-	ActualHours     float64 `json:"actualHours,omitempty"`
-	CategoryIDs     []int   `json:"categoryId[],omitempty"`
-	VersionIDs      []int   `json:"versionId[],omitempty"`
-	MilestoneIDs    []int   `json:"milestoneId[],omitempty"`
-	AssigneeID      int     `json:"assigneeId,omitempty"`
-	NotifiedUserIDs []int   `json:"notifiedUserId[],omitempty"`
-	AttachmentIDs   []int   `json:"attachmentId[],omitempty"`
+	ParentIssueID          int                 `json:"parentIssueId,omitempty"`
+	Description            string              `json:"description,omitempty"`
+	StartDate              string              `json:"startDate,omitempty"`
+	DueDate                string              `json:"dueDate,omitempty"`
+	EstimatedHours         float64             `json:"estimatedHours,omitempty"`
+	ActualHours            float64             `json:"actualHours,omitempty"`
+	CategoryIDs            []int               `json:"categoryId[],omitempty"`
+	VersionIDs             []int               `json:"versionId[],omitempty"`
+	MilestoneIDs           []int               `json:"milestoneId[],omitempty"`
+	AssigneeID             int                 `json:"assigneeId,omitempty"`
+	NotifiedUserIDs        []int               `json:"notifiedUserId[],omitempty"`
+	AttachmentIDs          []int               `json:"attachmentId[],omitempty"`
+	CustomFields           map[int]interface{} `json:"customField_%v,omitempty"`
+	CustomFieldOtherValues map[int]interface{} `json:"customField_%v_otherValue,omitempty"`
 }
 
 type addIssueOptions struct {

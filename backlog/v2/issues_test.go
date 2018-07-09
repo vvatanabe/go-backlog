@@ -55,6 +55,16 @@ func Test_IssueService_AddIssue_should_add_a_issue(t *testing.T) {
 		AssigneeID: 1,
 		NotifiedUserIDs: []int{1},
 		AttachmentIDs: []int{1},
+		CustomFields: map[int]interface{}{
+			1: "text",
+			2: true,
+			3: 1,
+		},
+		CustomFieldOtherValues: map[int]interface{}{
+			1: "text",
+			2: true,
+			3: 1,
+		},
 	}
 
 	b, _ := ioutil.ReadFile(fixturesPath + "add-issue.json")
@@ -78,6 +88,12 @@ func Test_IssueService_AddIssue_should_add_a_issue(t *testing.T) {
 				"assigneeId": opt.AssigneeID,
 				"notifiedUserId[]": opt.NotifiedUserIDs[0],
 				"attachmentId[]": opt.AttachmentIDs[0],
+				"customField_1": opt.CustomFields[1],
+				"customField_2": opt.CustomFields[2],
+				"customField_3": opt.CustomFields[3],
+				"customField_1_otherValue": opt.CustomFieldOtherValues[1],
+				"customField_2_otherValue": opt.CustomFieldOtherValues[2],
+				"customField_3_otherValue": opt.CustomFieldOtherValues[3],
 			})
 			fmt.Fprint(w, string(b))
 		})

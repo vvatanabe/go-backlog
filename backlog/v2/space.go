@@ -1,10 +1,10 @@
 package v2
 
 import (
-	"time"
 	"context"
+	"time"
 
-	. "github.com/vvatanabe/go-backlog/backlog/shared"
+	"github.com/vvatanabe/go-backlog/backlog/shared"
 )
 
 type SpaceService service
@@ -21,13 +21,13 @@ type Space struct {
 	Updated            time.Time `json:"updated"`
 }
 
-// Backlog API docs: https://developer.nulab-inc.com/ja/docs/backlog/api/2/get-space/
-func (s *SpaceService) GetSpace(ctx context.Context) (*Space, *Response, error) {
+// GetSpace docs: https://developer.nulab-inc.com/ja/docs/backlog/api/2/get-space/
+func (s *SpaceService) GetSpace(ctx context.Context) (*Space, *shared.Response, error) {
 	u := "space"
 	var result *Space
-	if resp, err := s.client.Get(ctx, u, nil, &result); err != nil {
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
 		return nil, resp, err
-	} else {
-		return result, resp, nil
 	}
+	return result, resp, nil
 }

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	. "github.com/vvatanabe/go-backlog/backlog/shared"
+	"github.com/vvatanabe/go-backlog/backlog/shared"
 )
 
 type IssuesService service
@@ -103,8 +103,8 @@ type addIssueOptions struct {
 	*AddIssueOptions
 }
 
-// Backlog API docs: https://developer.nulab-inc.com/docs/backlog/api/2/add-issue/
-func (s *IssuesService) AddIssue(ctx context.Context, projectID int, summary string, issueTypeID, priorityID int, opt *AddIssueOptions) (*Issue, *Response, error) {
+// AddIssue docs: https://developer.nulab-inc.com/docs/backlog/api/2/add-issue/
+func (s *IssuesService) AddIssue(ctx context.Context, projectID int, summary string, issueTypeID, priorityID int, opt *AddIssueOptions) (*Issue, *shared.Response, error) {
 	u := "issues"
 	body := &addIssueOptions{
 		ProjectID:       projectID,
@@ -114,20 +114,20 @@ func (s *IssuesService) AddIssue(ctx context.Context, projectID int, summary str
 		AddIssueOptions: opt,
 	}
 	var result *Issue
-	if resp, err := s.client.Post(ctx, u, body, &result); err != nil {
+	resp, err := s.client.Post(ctx, u, body, &result)
+	if err != nil {
 		return nil, resp, err
-	} else {
-		return result, resp, nil
 	}
+	return result, resp, nil
 }
 
-// Backlog API docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-issue/
-func (s *IssuesService) GetIssue(ctx context.Context, issueIDOrKey string) (*Issue, *Response, error) {
+// GetIssue docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-issue/
+func (s *IssuesService) GetIssue(ctx context.Context, issueIDOrKey string) (*Issue, *shared.Response, error) {
 	u := fmt.Sprintf("issues/%s", issueIDOrKey)
 	var result *Issue
-	if resp, err := s.client.Get(ctx, u, nil, &result); err != nil {
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
 		return nil, resp, err
-	} else {
-		return result, resp, nil
 	}
+	return result, resp, nil
 }

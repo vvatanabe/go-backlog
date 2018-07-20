@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	. "github.com/vvatanabe/go-backlog/backlog/shared"
+	"github.com/vvatanabe/go-backlog/backlog/shared"
 )
 
 type ProjectsService service
@@ -72,58 +72,58 @@ type Version struct {
 	DisplayOrder   int    `json:"displayOrder"`
 }
 
-// Backlog API docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-project/
-func (s *ProjectsService) GetProject(ctx context.Context, projectIDOrKey string) (*Project, *Response, error) {
+// GetProject docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-project/
+func (s *ProjectsService) GetProject(ctx context.Context, projectIDOrKey string) (*Project, *shared.Response, error) {
 	u := fmt.Sprintf("projects/%s", projectIDOrKey)
 	var result *Project
-	if resp, err := s.client.Get(ctx, u, nil, &result); err != nil {
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
 		return nil, resp, err
-	} else {
-		return result, resp, nil
 	}
+	return result, resp, nil
 }
 
+// GetProjectUsers docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-project-user-list/
 // TODO apply excludeGroupMembers option
-// Backlog API docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-project-user-list/
-func (s *ProjectsService) GetProjectUsers(ctx context.Context, projectIDOrKey string) ([]*User, *Response, error) {
+func (s *ProjectsService) GetProjectUsers(ctx context.Context, projectIDOrKey string) ([]*User, *shared.Response, error) {
 	u := fmt.Sprintf("projects/%s/users", projectIDOrKey)
 	var result []*User
-	if resp, err := s.client.Get(ctx, u, nil, &result); err != nil {
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
 		return nil, resp, err
-	} else {
-		return result, resp, nil
 	}
+	return result, resp, nil
 }
 
-// Backlog API docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-issue-type-list/
-func (s *ProjectsService) GetIssueTypes(ctx context.Context, projectIdOrKey string) ([]*IssueType, *Response, error) {
-	u := fmt.Sprintf("projects/%s/issueTypes", projectIdOrKey)
+// GetIssueTypes docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-issue-type-list/
+func (s *ProjectsService) GetIssueTypes(ctx context.Context, projectIDOrKey string) ([]*IssueType, *shared.Response, error) {
+	u := fmt.Sprintf("projects/%s/issueTypes", projectIDOrKey)
 	var result []*IssueType
-	if resp, err := s.client.Get(ctx, u, nil, &result); err != nil {
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
 		return nil, resp, err
-	} else {
-		return result, resp, nil
 	}
+	return result, resp, nil
 }
 
-// Backlog API docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-category-list/
-func (s *ProjectsService) GetCategories(ctx context.Context, projectIdOrKey string) ([]*Category, *Response, error) {
-	u := fmt.Sprintf("projects/%s/categories", projectIdOrKey)
+// GetCategories docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-category-list/
+func (s *ProjectsService) GetCategories(ctx context.Context, projectIDOrKey string) ([]*Category, *shared.Response, error) {
+	u := fmt.Sprintf("projects/%s/categories", projectIDOrKey)
 	var result []*Category
-	if resp, err := s.client.Get(ctx, u, nil, &result); err != nil {
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
 		return nil, resp, err
-	} else {
-		return result, resp, nil
 	}
+	return result, resp, nil
 }
 
-// Backlog API docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-version-milestone-list/
-func (s *ProjectsService) GetVersions(ctx context.Context, projectIdOrKey string) ([]*Version, *Response, error) {
-	u := fmt.Sprintf("projects/%s/versions", projectIdOrKey)
+// GetVersions docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-version-milestone-list/
+func (s *ProjectsService) GetVersions(ctx context.Context, projectIDOrKey string) ([]*Version, *shared.Response, error) {
+	u := fmt.Sprintf("projects/%s/versions", projectIDOrKey)
 	var result []*Version
-	if resp, err := s.client.Get(ctx, u, nil, &result); err != nil {
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
 		return nil, resp, err
-	} else {
-		return result, resp, nil
 	}
+	return result, resp, nil
 }

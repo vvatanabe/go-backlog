@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"strings"
 
-	. "github.com/vvatanabe/go-backlog/backlog/shared"
+	"github.com/vvatanabe/go-backlog/backlog/shared"
 	"github.com/vvatanabe/go-backlog/httpc"
 )
 
@@ -45,7 +45,7 @@ func (c *Client) SetAPIKey(key string) {
 
 type RequestFunc func(context.Context, *url.URL, url.Values) (*httpc.Response, error)
 
-func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request RequestFunc) (*Response, error) {
+func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request RequestFunc) (*shared.Response, error) {
 
 	rel, err := url.Parse(uri)
 	if err != nil {
@@ -63,7 +63,7 @@ func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request R
 	if err != nil {
 		if e, ok := err.(*url.Error); ok {
 			if parsedURL, err := url.Parse(e.URL); err == nil {
-				e.URL = SanitizeURL(parsedURL).String()
+				e.URL = shared.SanitizeURL(parsedURL).String()
 				return nil, e
 			}
 		}
@@ -81,22 +81,22 @@ func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request R
 		return nil, err
 	}
 
-	return &Response{Response: resp.Response}, nil
+	return &shared.Response{Response: resp.Response}, nil
 }
 
-func (c *Client) Post(ctx context.Context, uri string, body interface{}, v interface{}) (*Response, error) {
+func (c *Client) Post(ctx context.Context, uri string, body interface{}, v interface{}) (*shared.Response, error) {
 	return c.do(ctx, uri, body, v, c.client.Post)
 }
 
-func (c *Client) Put(ctx context.Context, uri string, body interface{}, v interface{}) (*Response, error) {
+func (c *Client) Put(ctx context.Context, uri string, body interface{}, v interface{}) (*shared.Response, error) {
 	return c.do(ctx, uri, body, v, c.client.Put)
 }
 
-func (c *Client) Delete(ctx context.Context, uri string, q, v interface{}) (*Response, error) {
+func (c *Client) Delete(ctx context.Context, uri string, q, v interface{}) (*shared.Response, error) {
 	return c.do(ctx, uri, q, v, c.client.Delete)
 }
 
-func (c *Client) Get(ctx context.Context, uri string, q, v interface{}) (*Response, error) {
+func (c *Client) Get(ctx context.Context, uri string, q, v interface{}) (*shared.Response, error) {
 	return c.do(ctx, uri, q, v, c.client.Get)
 }
 
@@ -104,13 +104,12 @@ func checkResponse(r *httpc.Response) error {
 	if c := r.StatusCode; 200 <= c && c <= 299 {
 		return nil
 	}
-	errorResponse := &ErrorResponse{}
+	errorResponse := &shared.ErrorResponse{}
 	if err := r.DecodeJson(errorResponse); err != nil {
 		return err
-	} else {
-		errorResponse.Response = r.Response
-		return errorResponse
 	}
+	errorResponse.Response = r.Response
+	return errorResponse
 }
 
 func toValues(data interface{}) (url.Values, error) {

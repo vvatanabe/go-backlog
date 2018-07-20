@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	ApiVersion = "v2"
+	APIVersion = "v2"
 )
 
 type service struct {
@@ -31,8 +31,7 @@ func NewClient(host string, httpClient *http.Client) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	// TODO change http => https
-	baseURL, _ := url.Parse("https://" + host + "/api/" + ApiVersion + "/")
+	baseURL, _ := url.Parse("https://" + host + "/api/" + APIVersion + "/")
 
 	c := &Client{client: internal.NewClient(baseURL, httpClient)}
 

@@ -16,14 +16,14 @@ func Test_IssueService_GetIssue_should_get_a_issue(t *testing.T) {
 	setup()
 	defer teardown()
 	b, _ := ioutil.ReadFile(fixturesPath + "get-issue.json")
-	issueIdOrKey := "EXAMPLE-1"
-	mux.HandleFunc(fmt.Sprintf("/issues/%s", issueIdOrKey),
+	issueIDOrKey := "EXAMPLE-1"
+	mux.HandleFunc(fmt.Sprintf("/issues/%s", issueIDOrKey),
 		func(w http.ResponseWriter, r *http.Request) {
 			internal.TestMethod(t, r, "GET")
 			fmt.Fprint(w, string(b))
 		})
 
-	result, _, err := client.Issues.GetIssue(context.Background(), issueIdOrKey)
+	result, _, err := client.Issues.GetIssue(context.Background(), issueIDOrKey)
 	if err != nil {
 		t.Errorf("Returned error: %v", err)
 	}

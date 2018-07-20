@@ -12,6 +12,6 @@ echo "--> Generating CHANGELOG"
 ghch -w -N $next_version
 
 git add ./backlog/internal CHANGELOG.md
-#git commit -m "Bump version $next_version"
-#git tag $next_version
-#git push && git push --tags
+git commit -m "Bump version $next_version"
+git tag $next_version
+git push && git push --tags

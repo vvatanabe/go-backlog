@@ -121,3 +121,25 @@ func Test_ProjectsService_GetVersions_should_get_some_versions_in_project(t *tes
 		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
 	}
 }
+
+func Test_ProjectsService_GetCustomFields_should_get_some_custom_fields_in_project(t *testing.T) {
+	setup()
+	defer teardown()
+	b, _ := ioutil.ReadFile(fixturesPath + "get-custom-field-list.json")
+	projectIDOrKey := "EXAMPLE"
+	mux.HandleFunc(fmt.Sprintf("/projects/%s/customFields", projectIDOrKey),
+		func(w http.ResponseWriter, r *http.Request) {
+			internal.TestMethod(t, r, "GET")
+			fmt.Fprint(w, string(b))
+		})
+
+	result, _, err := client.Projects.GetCustomFields(context.Background(), projectIDOrKey)
+	if err != nil {
+		t.Errorf("Returned error: %v", err)
+	}
+	var want []*CustomField
+	json.Unmarshal(b, &want)
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
+	}
+}

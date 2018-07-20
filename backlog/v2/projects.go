@@ -72,6 +72,23 @@ type Version struct {
 	DisplayOrder   int    `json:"displayOrder"`
 }
 
+type CustomField struct {
+	ID                   int                `json:"id"`
+	TypeID               int                `json:"typeId"`
+	Name                 string             `json:"name"`
+	Description          string             `json:"description"`
+	Required             bool               `json:"required"`
+	ApplicableIssueTypes []int              `json:"applicableIssueTypes"`
+	AllowAddItem         bool               `json:"allowAddItem"`
+	Items                []*CustomFieldItem `json:"items"`
+}
+
+type CustomFieldItem struct {
+	ID           int    `json:"id"`
+	Name         string `json:"name"`
+	DisplayOrder int    `json:"displayOrder"`
+}
+
 // GetProject docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-project/
 func (s *ProjectsService) GetProject(ctx context.Context, projectIDOrKey string) (*Project, *shared.Response, error) {
 	u := fmt.Sprintf("projects/%s", projectIDOrKey)
@@ -121,6 +138,17 @@ func (s *ProjectsService) GetCategories(ctx context.Context, projectIDOrKey stri
 func (s *ProjectsService) GetVersions(ctx context.Context, projectIDOrKey string) ([]*Version, *shared.Response, error) {
 	u := fmt.Sprintf("projects/%s/versions", projectIDOrKey)
 	var result []*Version
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
+		return nil, resp, err
+	}
+	return result, resp, nil
+}
+
+// GetCustomFields docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-custom-field-list/
+func (s *ProjectsService) GetCustomFields(ctx context.Context, projectIDOrKey string) ([]*CustomField, *shared.Response, error) {
+	u := fmt.Sprintf("projects/%s/customFields", projectIDOrKey)
+	var result []*CustomField
 	resp, err := s.client.Get(ctx, u, nil, &result)
 	if err != nil {
 		return nil, resp, err

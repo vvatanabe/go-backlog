@@ -1,4 +1,4 @@
-# go-backlog
+# go-backlog [![Build Status](https://travis-ci.org/vvatanabe/go-backlog.svg?branch=master)](https://travis-ci.org/vvatanabe/go-backlog) [![Coverage Status](https://coveralls.io/repos/github/vvatanabe/go-backlog/badge.svg?branch=master)](https://coveralls.io/github/vvatanabe/go-backlog?branch=master)
 
 go-backlog is a GO client library for accessing the [Backlog API](https://developer.nulab-inc.com/docs/backlog/).
 

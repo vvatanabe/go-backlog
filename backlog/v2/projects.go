@@ -72,6 +72,11 @@ type Version struct {
 	DisplayOrder   int    `json:"displayOrder"`
 }
 
+type Priority struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
 type CustomField struct {
 	ID                   int                `json:"id"`
 	TypeID               int                `json:"typeId"`
@@ -149,6 +154,17 @@ func (s *ProjectsService) GetVersions(ctx context.Context, projectIDOrKey string
 func (s *ProjectsService) GetCustomFields(ctx context.Context, projectIDOrKey string) ([]*CustomField, *shared.Response, error) {
 	u := fmt.Sprintf("projects/%s/customFields", projectIDOrKey)
 	var result []*CustomField
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
+		return nil, resp, err
+	}
+	return result, resp, nil
+}
+
+// GetPriorities docs: https://developer.nulab-inc.com/docs/backlog/api/2/get-priority-list/
+func (s *ProjectsService) GetPriorities(ctx context.Context) ([]*Priority, *shared.Response, error) {
+	u := "priorities"
+	var result []*Priority
 	resp, err := s.client.Get(ctx, u, nil, &result)
 	if err != nil {
 		return nil, resp, err

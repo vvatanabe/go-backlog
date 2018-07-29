@@ -62,3 +62,4 @@ For bugs, questions and discussions please use the Github Issues.
 - [x] [add category list](https://developer.nulab-inc.com/docs/backlog/api/2/get-category-list/)
 - [x] [get version milestone list](https://developer.nulab-inc.com/docs/backlog/api/2/get-version-milestone-list/)
 - [x] [get custom field list](https://developer.nulab-inc.com/docs/backlog/api/2/get-custom-field-list/)
+- [x] [get priority list](https://developer.nulab-inc.com/docs/backlog/api/2/get-priority-list/)

@@ -18,9 +18,10 @@ type service struct {
 type Client struct {
 	client *internal.Client
 
-	Space   *SpaceService
-	Projects *ProjectsService
-	Issues   *IssuesService
+	Space        *SpaceService
+	Projects     *ProjectsService
+	Issues       *IssuesService
+	PullRequests *PullRequestsService
 }
 
 func (c *Client) SetAPIKey(key string) {
@@ -40,6 +41,7 @@ func NewClient(host string, httpClient *http.Client) *Client {
 	c.Space = (*SpaceService)(common)
 	c.Projects = (*ProjectsService)(common)
 	c.Issues = (*IssuesService)(common)
+	c.PullRequests = (*PullRequestsService)(common)
 
 	return c
 }

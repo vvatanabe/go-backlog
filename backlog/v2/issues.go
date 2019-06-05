@@ -17,6 +17,7 @@ type Status struct {
 
 type Assignee struct {
 	ID          int         `json:"id"`
+	UserID      string      `json:"userId"`
 	Name        string      `json:"name"`
 	RoleType    int         `json:"roleType"`
 	Lang        interface{} `json:"lang"`

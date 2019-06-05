@@ -5,12 +5,15 @@ ifeq ($(update),yes)
   u=-u
 endif
 
+export GO111MODULE=on
+
 .PHONY: devel-deps
 devel-deps:
-	go get ${u} github.com/mattn/goveralls
-	go get ${u} github.com/golang/lint/golint
-	go get ${u} github.com/motemen/gobump/cmd/gobump
-	go get ${u} github.com/Songmu/ghch/cmd/ghch
+	GO111MODULE=off go get ${u} \
+	github.com/mattn/goveralls \
+	github.com/golang/lint/golint \
+	github.com/motemen/gobump/cmd/gobump \
+	github.com/Songmu/ghch/cmd/ghch
 
 .PHONY: test
 test:

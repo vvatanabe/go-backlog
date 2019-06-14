@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.9.4](https://github.com/vvatanabe/go-backlog/compare/v0.9.3...v0.9.4) (2019-06-14)
+
+* when request fails, should be return response object (#10) [#11](https://github.com/vvatanabe/go-backlog/pull/11) ([vvatanabe](https://github.com/vvatanabe))
+
 ## [v0.9.3](https://github.com/vvatanabe/go-backlog/compare/0.9.2...v0.9.3) (2019-06-06)
 
 * support GO Modules (#7) [#9](https://github.com/vvatanabe/go-backlog/pull/9) ([vvatanabe](https://github.com/vvatanabe))

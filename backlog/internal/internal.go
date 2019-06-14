@@ -71,17 +71,19 @@ func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request R
 	}
 	defer resp.Body.Close()
 
+	sResp := &shared.Response{Response: resp.Response}
+
 	err = checkResponse(resp)
 	if err != nil {
-		return nil, err
+		return sResp, err
 	}
 
 	err = resp.DecodeJson(v)
 	if err != nil {
-		return nil, err
+		return sResp, err
 	}
 
-	return &shared.Response{Response: resp.Response}, nil
+	return sResp, nil
 }
 
 func (c *Client) Post(ctx context.Context, uri string, body interface{}, v interface{}) (*shared.Response, error) {

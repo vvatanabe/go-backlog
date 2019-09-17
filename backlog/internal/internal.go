@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	Version          = "0.9.4"
+	Version          = "0.9.5"
 	UserAgent        = "go-backlog/" + Version
 	DefaultMediaType = "application/octet-stream"
 )

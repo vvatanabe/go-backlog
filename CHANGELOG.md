@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.9.5](https://github.com/vvatanabe/go-backlog/compare/v0.9.4...v0.9.5) (2019-09-17)
+
+* support the add pull request api (#12) [#13](https://github.com/vvatanabe/go-backlog/pull/13) ([vvatanabe](https://github.com/vvatanabe))
+
 ## [v0.9.4](https://github.com/vvatanabe/go-backlog/compare/v0.9.3...v0.9.4) (2019-06-14)
 
 * when request fails, should be return response object (#10) [#11](https://github.com/vvatanabe/go-backlog/pull/11) ([vvatanabe](https://github.com/vvatanabe))

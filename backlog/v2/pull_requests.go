@@ -44,3 +44,25 @@ func (s *PullRequestsService) GetPullRequest(ctx context.Context, projectIdOrKey
 	}
 	return result, resp, nil
 }
+
+type AddPullRequestOptions struct {
+	Summary        string `json:"summary,omitempty"`
+	Description    string `json:"description,omitempty"`
+	Base           string `json:"base,omitempty"`
+	Branch         string `json:"branch,omitempty"`
+	IssueID        int    `json:"issueId,omitempty"`
+	AssigneeID     int    `json:"assigneeId,omitempty"`
+	NotifiedUserID []int  `json:"notifiedUserId,omitempty"`
+	AttachmentID   []int  `json:"attachmentId,omitempty"`
+}
+
+// AddPullRequest docs: https://developer.nulab.com/ja/docs/backlog/api/2/add-pull-request/
+func (s *PullRequestsService) AddPullRequest(ctx context.Context, projectIdOrKey, repoIdOrName string, opt *AddPullRequestOptions) (*PullRequest, *shared.Response, error) {
+	u := fmt.Sprintf("projects/%s/git/repositories/%s/pullRequests", projectIdOrKey, repoIdOrName)
+	var result *PullRequest
+	resp, err := s.client.Post(ctx, u, opt, &result)
+	if err != nil {
+		return nil, resp, err
+	}
+	return result, resp, nil
+}

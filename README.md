@@ -54,6 +54,7 @@ For bugs, questions and discussions please use the Github Issues.
 ## Support API
 
 - [x] [get space](https://developer.nulab-inc.com/ja/docs/backlog/api/2/get-space/)
+- [x] [get space disk usage](https://developer.nulab.com/docs/backlog/api/2/get-space-disk-usage/#get-space-disk-usage)
 - [x] [get issue](https://developer.nulab-inc.com/docs/backlog/api/2/get-issue/)
 - [x] [add issue](https://developer.nulab-inc.com/docs/backlog/api/2/add-issue/)
 - [x] [get project](https://developer.nulab-inc.com/docs/backlog/api/2/get-project/)

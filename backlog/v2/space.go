@@ -31,3 +31,35 @@ func (s *SpaceService) GetSpace(ctx context.Context) (*Space, *shared.Response, 
 	}
 	return result, resp, nil
 }
+
+type DiskUsage struct {
+	Capacity   int                `json:"capacity"`
+	Issue      int                `json:"issue"`
+	Wiki       int                `json:"wiki"`
+	File       int                `json:"file"`
+	Subversion int                `json:"subversion"`
+	Git        int                `json:"git"`
+	GitLFS     int                `json:"gitLFS"`
+	Details    []*DiskUsageDetail `json:"details"`
+}
+
+type DiskUsageDetail struct {
+	ProjectID  int `json:"projectId"`
+	Issue      int `json:"issue"`
+	Wiki       int `json:"wiki"`
+	File       int `json:"file"`
+	Subversion int `json:"subversion"`
+	Git        int `json:"git"`
+	GitLFS     int `json:"gitLFS"`
+}
+
+// GetSpace docs: https://developer.nulab.com/docs/backlog/api/2/get-space-disk-usage/
+func (s *SpaceService) GetSpaceDiskUsage(ctx context.Context) (*DiskUsage, *shared.Response, error) {
+	u := "/space/diskUsage"
+	var result *DiskUsage
+	resp, err := s.client.Get(ctx, u, nil, &result)
+	if err != nil {
+		return nil, resp, err
+	}
+	return result, resp, nil
+}

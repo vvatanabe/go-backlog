@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.10.0](https://github.com/vvatanabe/go-backlog/compare/v0.9.5...v0.10.0) (2021-10-08)
+
+* support api for adding comments on pull requests [#18](https://github.com/vvatanabe/go-backlog/pull/18) ([vvatanabe](https://github.com/vvatanabe))
+* implements space-disk-usage API (#14) [#15](https://github.com/vvatanabe/go-backlog/pull/15) ([vvatanabe](https://github.com/vvatanabe))
+
 ## [v0.9.5](https://github.com/vvatanabe/go-backlog/compare/v0.9.4...v0.9.5) (2019-09-17)
 
 * support the add pull request api (#12) [#13](https://github.com/vvatanabe/go-backlog/pull/13) ([vvatanabe](https://github.com/vvatanabe))

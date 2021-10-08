@@ -1,0 +1,25 @@
+[
+  {
+    "id": 35,
+    "content": "from api",
+    "changeLog": [
+      {
+        "field": "dependentIssue",
+        "newValue": "GIT-3",
+        "originalValue": null
+      }
+    ],
+    "createdUser": {
+      "id": 1,
+      "userId": "admin",
+      "name": "admin",
+      "roleType": 1,
+      "lang": "ja",
+      "mailAddress": "eguchi@nulab.example"
+    },
+    "created":"2015-05-14T01:53:38Z",
+    "updated":"2015-05-14T01:53:38Z",
+    "stars":[],
+    "notifications":[]
+  }
+]

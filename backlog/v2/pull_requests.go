@@ -100,3 +100,28 @@ func (s *PullRequestsService) AddPullRequestComment(ctx context.Context, project
 	}
 	return result, resp, nil
 }
+
+type GetPullRequestCommentOptions struct {
+	MinID int   `json:"minId,omitempty"`
+	MaxId int   `json:"maxId,omitempty"`
+	Count int   `json:"count,omitempty"`
+	Order Order `json:"order,omitempty"`
+}
+
+type Order string
+
+const (
+	OrderAsc  Order = "asc"
+	OrderDesc Order = "desc"
+)
+
+// GetPullRequestComment docs: https://developer.nulab.com/docs/backlog/api/2/get-pull-request-comment/
+func (s *PullRequestsService) GetPullRequestComment(ctx context.Context, projectIdOrKey, repoIdOrName string, number int, opt *GetPullRequestCommentOptions) ([]*PullRequestComment, *shared.Response, error) {
+	u := fmt.Sprintf("projects/%s/git/repositories/%s/pullRequests/%d/comments", projectIdOrKey, repoIdOrName, number)
+	var result []*PullRequestComment
+	resp, err := s.client.Get(ctx, u, opt, &result)
+	if err != nil {
+		return nil, resp, err
+	}
+	return result, resp, nil
+}

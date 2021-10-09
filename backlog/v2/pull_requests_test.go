@@ -142,3 +142,35 @@ func Test_PullRequestsService_GetPullRequestComment_should_get_pull_request_comm
 		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
 	}
 }
+
+func Test_PullRequestsService_UpdatePullRequestComment_should_get_a_pull_request_comment(t *testing.T) {
+	setup()
+	defer teardown()
+	b, _ := ioutil.ReadFile(fixturesPath + "update-pull-request-comment.json")
+	projectIdOrKey := "FOO"
+	repoIDOrKey := "EXAMPLE-1"
+	number := 1
+	commentID := 2
+
+	opt := &UpdatePullRequestCommentOptions{
+		Content: "hello",
+	}
+	mux.HandleFunc(fmt.Sprintf("/projects/%s/git/repositories/%s/pullRequests/%d/comments/%d", projectIdOrKey, repoIDOrKey, number, commentID),
+		func(w http.ResponseWriter, r *http.Request) {
+			internal.TestMethod(t, r, "PATCH")
+			internal.TestFormValues(t, r, internal.Values{
+				"content": opt.Content,
+			})
+			fmt.Fprint(w, string(b))
+		})
+
+	result, _, err := client.PullRequests.UpdatePullRequestComment(context.Background(), projectIdOrKey, repoIDOrKey, number, commentID, opt)
+	if err != nil {
+		t.Errorf("Returned error: %v", err)
+	}
+	var want *PullRequestComment
+	json.Unmarshal(b, &want)
+	if !reflect.DeepEqual(result, want) {
+		t.Errorf("Returned result:\n result  %v,\n want %v", result, want)
+	}
+}

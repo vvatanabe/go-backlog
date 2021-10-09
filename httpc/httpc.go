@@ -101,6 +101,10 @@ func (c *Client) Put(ctx context.Context, u *url.URL, body url.Values) (*Respons
 	return c.call(ctx, http.MethodPut, c.resolveURL(u), body)
 }
 
+func (c *Client) Patch(ctx context.Context, u *url.URL, body url.Values) (*Response, error) {
+	return c.call(ctx, http.MethodPatch, c.resolveURL(u), body)
+}
+
 func (c *Client) Delete(ctx context.Context, u *url.URL, query url.Values) (res *Response, err error) {
 	return c.call(ctx, http.MethodDelete, c.resolveURL(u, query), nil)
 }

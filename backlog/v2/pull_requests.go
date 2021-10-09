@@ -125,3 +125,18 @@ func (s *PullRequestsService) GetPullRequestComment(ctx context.Context, project
 	}
 	return result, resp, nil
 }
+
+type UpdatePullRequestCommentOptions struct {
+	Content string `json:"content"`
+}
+
+// UpdatePullRequestComment docs: https://developer.nulab.com/docs/backlog/api/2/update-pull-request-comment-information/
+func (s *PullRequestsService) UpdatePullRequestComment(ctx context.Context, projectIdOrKey, repoIdOrName string, number, commentId int, opt *UpdatePullRequestCommentOptions) (*PullRequestComment, *shared.Response, error) {
+	u := fmt.Sprintf("projects/%s/git/repositories/%s/pullRequests/%d/comments/%d", projectIdOrKey, repoIdOrName, number, commentId)
+	var result PullRequestComment
+	resp, err := s.client.Patch(ctx, u, opt, &result)
+	if err != nil {
+		return nil, resp, err
+	}
+	return &result, resp, nil
+}

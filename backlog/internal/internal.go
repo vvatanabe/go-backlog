@@ -94,6 +94,10 @@ func (c *Client) Put(ctx context.Context, uri string, body interface{}, v interf
 	return c.do(ctx, uri, body, v, c.client.Put)
 }
 
+func (c *Client) Patch(ctx context.Context, uri string, body interface{}, v interface{}) (*shared.Response, error) {
+	return c.do(ctx, uri, body, v, c.client.Patch)
+}
+
 func (c *Client) Delete(ctx context.Context, uri string, q, v interface{}) (*shared.Response, error) {
 	return c.do(ctx, uri, q, v, c.client.Delete)
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.11.0](https://github.com/vvatanabe/go-backlog/compare/v0.10.0...v0.11.0) (2021-10-09)
+
+* support update-pull-request-comment API (#22) [#23](https://github.com/vvatanabe/go-backlog/pull/23) ([vvatanabe](https://github.com/vvatanabe))
+* support get-pull-request-comment API (#20) [#21](https://github.com/vvatanabe/go-backlog/pull/21) ([vvatanabe](https://github.com/vvatanabe))
+
 ## [v0.10.0](https://github.com/vvatanabe/go-backlog/compare/v0.9.5...v0.10.0) (2021-10-08)
 
 * support api for adding comments on pull requests [#18](https://github.com/vvatanabe/go-backlog/pull/18) ([vvatanabe](https://github.com/vvatanabe))

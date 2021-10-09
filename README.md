@@ -67,3 +67,4 @@ For bugs, questions and discussions please use the Github Issues.
 - [x] [get pull request](https://developer.nulab.com/ja/docs/backlog/api/2/get-pull-request/)
 - [x] [add pull request comment](https://developer.nulab.com/docs/backlog/api/2/add-pull-request-comment/)
 - [x] [get pull request comment](https://developer.nulab.com/docs/backlog/api/2/get-pull-request-comment/)
+- [x] [update pull request comment](https://developer.nulab.com/docs/backlog/api/2/update-pull-request-comment-information/)

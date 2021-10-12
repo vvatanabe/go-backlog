@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.11.3](https://github.com/vvatanabe/go-backlog/compare/v0.11.2...v0.11.3) (2021-10-12)
+
+* Implements getter for base url in v2 client (#25) [#27](https://github.com/vvatanabe/go-backlog/pull/27) ([vvatanabe](https://github.com/vvatanabe))
+
 ## [v0.11.2](https://github.com/vvatanabe/go-backlog/compare/v0.11.1...v0.11.2) (2021-10-12)
 
 * Implements getter for base url (#25) [#26](https://github.com/vvatanabe/go-backlog/pull/26) ([vvatanabe](https://github.com/vvatanabe))

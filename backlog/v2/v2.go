@@ -30,6 +30,10 @@ func (c *Client) SetAPIKey(key string) {
 	c.client.SetAPIKey(key)
 }
 
+func (c *Client) BaseURL() *url.URL {
+	return c.client.BaseURL()
+}
+
 func buildBaseURL(urlStr string) (*url.URL, error) {
 	urlStr = strings.Replace(urlStr, "http://", "https://", 1)
 	if !strings.HasPrefix(urlStr, "https://") {

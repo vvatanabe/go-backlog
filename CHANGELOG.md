@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.11.1](https://github.com/vvatanabe/go-backlog/compare/v0.11.0...v0.11.1) (2021-10-12)
+
+* build base URL construction more complementarily (#19) [#24](https://github.com/vvatanabe/go-backlog/pull/24) ([vvatanabe](https://github.com/vvatanabe))
+
 ## [v0.11.0](https://github.com/vvatanabe/go-backlog/compare/v0.10.0...v0.11.0) (2021-10-09)
 
 * support update-pull-request-comment API (#22) [#23](https://github.com/vvatanabe/go-backlog/pull/23) ([vvatanabe](https://github.com/vvatanabe))

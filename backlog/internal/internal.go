@@ -47,6 +47,10 @@ func (c *Client) SetBaseURL(baseUrl *url.URL) {
 	c.baseURL = baseUrl
 }
 
+func (c *Client) BaseURL() *url.URL {
+	return c.baseURL
+}
+
 type RequestFunc func(context.Context, *url.URL, url.Values) (*httpc.Response, error)
 
 func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request RequestFunc) (*shared.Response, error) {

@@ -30,17 +30,21 @@ func NewClient(baseURL *url.URL, httpClient *http.Client) *Client {
 
 	return &Client{
 		client:  c,
-		BaseURL: baseURL,
+		baseURL: baseURL,
 	}
 }
 
 type Client struct {
 	client  *httpc.Client
-	BaseURL *url.URL
+	baseURL *url.URL
 }
 
 func (c *Client) SetAPIKey(key string) {
 	c.client.BaseQuery.Set("apiKey", key)
+}
+
+func (c *Client) SetBaseURL(baseUrl *url.URL) {
+	c.baseURL = baseUrl
 }
 
 type RequestFunc func(context.Context, *url.URL, url.Values) (*httpc.Response, error)
@@ -57,7 +61,7 @@ func (c *Client) do(ctx context.Context, uri string, p, v interface{}, request R
 		return nil, err
 	}
 
-	u := c.BaseURL.ResolveReference(rel)
+	u := c.baseURL.ResolveReference(rel)
 
 	resp, err := request(ctx, u, values)
 	if err != nil {
